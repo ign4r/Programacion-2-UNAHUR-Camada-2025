@@ -4,14 +4,17 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerPresenter : MonoBehaviour /// GESTIONA COMPONENTES, COLLISIONES
 {
+
     private Rigidbody _rb;
     private PlayerModel _model;
+    private PlayerView _view;
     private PlayerInput _pInput;
 
     [SerializeField]
     private GameObject _mesh;
     public Action<bool> OnPlayerMoving { get; set; }
     public Action<int> OnCoinsCollected { get; set; }
+    public Action<float> OnDamage { get; set; }
 
     void Awake()
     {
@@ -23,15 +26,16 @@ public class PlayerPresenter : MonoBehaviour /// GESTIONA COMPONENTES, COLLISION
     private void OnEnable()
     {
         /// _model.SetSpeed(40f*2); no valido
-        
+
         //_model.SetPosition(transform.position);
 
-        _model.OnCoinsChanged += PresenterCoinsChanged; //obtiene esa informacion del model
+        _model.OnTakeDamage += _view.HandleDamageView;
+        _model.OnCoinsChanged += _view.HandleCoinsCollected; //obtiene esa informacion del model
     }
 
     private void OnDisable()
     {
-        _model.OnCoinsChanged -= PresenterCoinsChanged;
+        _model.OnCoinsChanged -= _view.HandleCoinsCollected;
 
     }
     void FixedUpdate()
@@ -64,10 +68,14 @@ public class PlayerPresenter : MonoBehaviour /// GESTIONA COMPONENTES, COLLISION
             Destroy(other.gameObject);
    
         }
+
+        if (other.CompareTag("Meteorite"))
+        {
+            ///SCRIPTABLE
+            MeteoriteDataObject dataMeteorite = other.GetComponent<MeteoriteModel>().MeteoriteData;
+            _model.TakeDamage(dataMeteorite.DamageMeteorite);
+
+        }
     }
-    private void PresenterCoinsChanged(int newCoinCount)
-    {
-        //luego dispara un evento, para exponer esa informacion
-        OnCoinsCollected?.Invoke(newCoinCount);
-    }
+
 }

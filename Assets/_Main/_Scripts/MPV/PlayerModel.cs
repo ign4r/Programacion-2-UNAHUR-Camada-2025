@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-public class PlayerModel : MonoBehaviour ///Calculos, datos, lo mas abstracto posible.
+public class PlayerModel : MonoBehaviour, IDamageable ///Calculos, datos, lo mas abstracto posible.
 {
     [SerializeField]
     private Quaternion initTiltRotation;
@@ -18,6 +18,7 @@ public class PlayerModel : MonoBehaviour ///Calculos, datos, lo mas abstracto po
     public float TiltSpeed { get => tiltSpeed; private set => tiltSpeed = value; }
 
     public event Action<int> OnCoinsChanged;
+    public event Action<float> OnTakeDamage;
 
     //public void SetSpeed(float speed)
     //{
@@ -43,12 +44,16 @@ public class PlayerModel : MonoBehaviour ///Calculos, datos, lo mas abstracto po
         return initTiltRotation * Quaternion.Euler(0f, 0f, tiltZ);
     }
 
-
+    public void TakeDamage(float dmg)
+    {
+        //TODO: Logica de realizar el daño
+        OnTakeDamage.Invoke(dmg);
+    }
     public void AddCoin()
     {
-        CurrentCoins++;
+        CurrentCoins++; //Logica
+
         OnCoinsChanged.Invoke(CurrentCoins);
-    
     }
 
 

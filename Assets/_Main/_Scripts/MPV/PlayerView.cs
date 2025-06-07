@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PlayerView : MonoBehaviour ///Actualizamos UI, ejecutamos eventos visuales o sonoros
 {
@@ -8,6 +9,7 @@ public class PlayerView : MonoBehaviour ///Actualizamos UI, ejecutamos eventos v
     [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private AudioSource coinSound;
     [SerializeField] private ParticleSystem _particleSystem;
+    public Action<bool> OnMovingView { get; set; }
 
     private void Awake()
     {
@@ -15,11 +17,12 @@ public class PlayerView : MonoBehaviour ///Actualizamos UI, ejecutamos eventos v
     }
     private void OnEnable()
     {
+    
         //y el view se suscribe a ese evento para cambiar la UI.
         //OnCoinsCollected: tiene informacion de tipo int es decir la cantidad actual de monedas
         playerPresenter.OnPlayerMoving += HandlePlayerMoving;
         playerPresenter.OnCoinsCollected += HandleCoinsCollected;
-
+        playerPresenter.OnDamage += HandleDamageView;
     }
 
     private void OnDisable()
@@ -31,8 +34,16 @@ public class PlayerView : MonoBehaviour ///Actualizamos UI, ejecutamos eventos v
         }
           
     }
-    private void HandlePlayerMoving(bool value)
+    public void HandleDamageView(float dmg)
     {
+        //Ejecuto animacion
+        //Ejecuto particular
+    }
+    public void HandlePlayerMoving(bool value)
+    {
+        //
+        
+        Debug.Log("aca se deberian ejecutar las particulas");
         if (value)
         {
             _particleSystem.Play();
@@ -43,7 +54,7 @@ public class PlayerView : MonoBehaviour ///Actualizamos UI, ejecutamos eventos v
         }
        
     }
-    private void HandleCoinsCollected(int newCoinCount) //cantidad actual de monedas
+    public void HandleCoinsCollected(int newCoinCount) //cantidad actual de monedas
     {
 
         // Reproduce sonido si está asignado
