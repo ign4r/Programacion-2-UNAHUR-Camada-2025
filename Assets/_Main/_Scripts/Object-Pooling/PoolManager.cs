@@ -4,6 +4,11 @@ using UnityEngine;
 ///Creamos un pool que pueda permitir crear varios pools para cada elemento dada una lista
 public class PoolManager : MonoBehaviour
 {
+    [SerializeField]
+    private Transform _container;
+
+    [SerializeField]
+    private int _size;
 
     private Dictionary<GameObject, List<GameObject>> pools = new Dictionary<GameObject, List<GameObject>>();
 
@@ -17,33 +22,23 @@ public class PoolManager : MonoBehaviour
             return;
         }
         Instance = this;
-
-    
     }
 
-    public void CreatePools(List<GameObject> prefabs, int poolSize)
-    {
-        foreach (var prefab in prefabs)
-        {
-            CreatePool(prefab, poolSize);
-        }
-    }
-
-    public void CreatePool(GameObject prefabKey, int poolSize)
+    public void CreatePool(GameObject prefabKey)
     {
         if (pools.ContainsKey(prefabKey)) return; // Si ya existe un pool para ese prefab, no hacer nada
 
-        List<GameObject> valuePoolList = new List<GameObject>();
+        List<GameObject> poolListValue = new List<GameObject>();
 
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < _size; i++)
         {
-            GameObject obj = Instantiate(prefabKey);
+            GameObject obj = Instantiate(prefabKey, _container);
             obj.name = $"{prefabKey.name}_{i}";
             obj.SetActive(false);
-            valuePoolList.Add(obj);
+            poolListValue.Add(obj);
         }
 
-        pools.Add(prefabKey, valuePoolList);
+        pools.Add(prefabKey, poolListValue);
     }
 
     /// <summary>
@@ -79,4 +74,5 @@ public class PoolManager : MonoBehaviour
     {
         obj.SetActive(false);
     }
+
 }

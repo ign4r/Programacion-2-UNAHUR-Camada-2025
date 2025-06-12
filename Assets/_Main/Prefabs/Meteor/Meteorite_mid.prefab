@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c243e6d876025a54f9ddcdaad5a5d8fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _meteoriteData: {fileID: 0}
+  _meteoriteData: {fileID: 11400000, guid: cf1dd62a05984544b9392392c968e85f, type: 2}
 --- !u!114 &8038413347791657747
 MonoBehaviour:
   m_ObjectHideFlags: 0

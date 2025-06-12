@@ -22,27 +22,29 @@ public class PlayerPresenter : MonoBehaviour
 
     [SerializeField]
     private GameObject _mesh;
-    public Action<bool> OnPlayerMoving { get; set; } 
+    public event Action<bool> OnPlayerMoving;
 
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _model = GetComponent<PlayerModel>();
+        _view = GetComponent<PlayerView>();
         _pInput = GetComponent<PlayerInput>();
     }
 
     private void OnEnable()
     {
-        //_model.OnTakeDamage += _view.UpdateHealthText; 
-        //_model.OnCoinsChanged += _view.HandleCoinsCollected;
-        //OnPlayerMoving += _view.HandlePlayerMoving;
-        
+        _model.OnTakeDamage += _view.UpdateHealthText;
+        _model.OnCoinsChanged += _view.HandleCoinsCollected;
+        OnPlayerMoving += _view.HandlePlayerMoving;
+
     }
     private void OnDisable()
     {
-        //_model.OnTakeDamage -= _view.UpdateHealthText;
-        //_model.OnCoinsChanged -= _view.HandleCoinsCollected;
+        _model.OnTakeDamage -= _view.UpdateHealthText;
+        _model.OnCoinsChanged -= _view.HandleCoinsCollected;
+        OnPlayerMoving -= _view.HandlePlayerMoving;
 
     }
 
@@ -60,13 +62,11 @@ public class PlayerPresenter : MonoBehaviour
         _rb.velocity = velocity;
         bool isMoving = velocity.magnitude > 0.1f;
 
-        OnPlayerMoving?.Invoke(isMoving);  // opcion 1 comunicarse con eventos con la vista.
+        OnPlayerMoving?.Invoke(isMoving);  /// opcion 1 comunicarse con eventos con la vista.
 
-        //_view.HandlePlayerMoving(isMoving); // opcion 2 llamada directa a la vista
-
+        ///_view.HandlePlayerMoving(isMoving); // opcion 2 llamada directa a la vista
     }
 
-    // Metodo para actualizar la inclinación del mesh
     private void UpdateTilt(float inputX)
     {
         Quaternion targetRotation = _model.CalculateTargetRotation(inputX);
@@ -85,11 +85,10 @@ public class PlayerPresenter : MonoBehaviour
         if (other.CompareTag("Meteorite"))
         {
             var meteorite = other.GetComponent<MeteoritePresenter>();
-            //int damage = meteorite.DamageMeteorite;
+            int damage = meteorite.DamageMeteorite;
+            _model.TakeDamage(damage); // El player se daña
 
-            //_model.TakeDamage(damage); // El player se daña
-
-            meteorite.OnHit(); // Le avisa al meteorito que fue impactado
+            meteorite.OnHit(); 
 
         }
     }

@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Hard_Meteorite
   m_EditorClassIdentifier: 
   descriptionData: Nivel Alto
-  damageMeteorite: 90
+  damageMeteorite: 10
   particleMeteorite: {fileID: 0}
   audioMeteorite: {fileID: 0}
-  prefab: {fileID: 8102387853794418950, guid: d62f9b5deacfd4448b9bd00f722e037a, type: 3}

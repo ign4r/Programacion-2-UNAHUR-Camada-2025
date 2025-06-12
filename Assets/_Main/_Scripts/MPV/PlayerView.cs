@@ -20,8 +20,7 @@ public class PlayerView : MonoBehaviour ///Actualizamos UI, ejecutamos eventos v
 
     public void UpdateHealthText(float health)
     {
-        healthText.text = health.ToString(); // Actualiza los puntos de vida 
-
+        healthText.text = "Life: " + health.ToString();
     }
 
     public void HandlePlayerMoving(bool value)

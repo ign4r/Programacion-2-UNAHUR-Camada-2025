@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07efb82fbdf71444c9ab2e3be10585d0, type: 3}
   m_Name: Mid_Meteorite
   m_EditorClassIdentifier: 
-  descriptionData: Nivel Facil
-  damageMeteorite: 10
+  descriptionData: Nivel Medio
+  damageMeteorite: 5
   particleMeteorite: {fileID: 0}
   audioMeteorite: {fileID: 0}
-  prefab: {fileID: 8102387853794418950, guid: d287d282c01217c4187ded4bd86eacfc, type: 3}

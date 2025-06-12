@@ -5,29 +5,37 @@ public class Respawner : MonoBehaviour
 {
     [SerializeField] private BoxCollider respawnArea;     // Asignar en inspector
     [SerializeField] private float respawnY = 1f;          // Altura de respawn
-    [SerializeField] private DataPrefabs p_meteorites;
+    [SerializeField] private ActorCollectionData meteoritesCollect;
     [SerializeField] private float spawnInterval = 2f;     // Intervalo entre spawns
+   //[SerializeField] private ActorCollectionData<MeteoritePresenter> meteoritesCollectG;
 
-    private void Awake()
-    {
-        PoolManager.Instance.CreatePools(p_meteorites.Prefabs,10);
-    }
+
+
     private void Start()
     {
-        if (p_meteorites == null || p_meteorites.Prefabs.Count == 0)
+        InitializationPool(meteoritesCollect);
+        StartCoroutine(SpawnObjectsRoutine(meteoritesCollect));
+    }
+    public void InitializationPool(ActorCollectionData collectionData)
+    {
+        if (collectionData == null || collectionData.Prefabs.Count == 0)
         {
             Debug.LogError("No hay objetos asignados para instanciar.");
             return;
         }
 
-        StartCoroutine(SpawnObjectsRoutine());
+        foreach (var prefab in collectionData.Prefabs)
+        {
+            PoolManager.Instance.CreatePool(prefab);
+        }
     }
 
-    private IEnumerator SpawnObjectsRoutine()
+
+    private IEnumerator SpawnObjectsRoutine(ActorCollectionData collectionData)
     {
         while (true)
         {
-            GameObject prefabRandom = p_meteorites.Prefabs[Random.Range(0, p_meteorites.Prefabs.Count)];
+            GameObject prefabRandom = collectionData.Prefabs[Random.Range(0, collectionData.Prefabs.Count)];
             GameObject objSelected = PoolManager.Instance.GetObject(prefabRandom);
             if (objSelected != null)
             {
@@ -42,9 +50,9 @@ public class Respawner : MonoBehaviour
     {
         if (respawnArea == null) return;
 
-        if (other.CompareTag("Coin") || other.CompareTag("Meteorite"))
+        if (other.CompareTag("Meteorite"))
         {
-            RespawnAtRandomX(other.gameObject);
+            PoolManager.Instance.ReturnObject(other.gameObject);
         }
     }
 

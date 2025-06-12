@@ -19,6 +19,11 @@ public class PlayerModel : MonoBehaviour, IDamageable ///Calculos, datos, lo mas
     [SerializeField]
     private float tiltSpeed = 5f;  // que tan rapido se inclina
 
+    [SerializeField]
+    private float maxHealth = 100f;
+
+    private float currentHealth; // o el valor máximo que tengas
+
     public int CurrentCoins { get; private set; }
     public float TiltSpeed { get => tiltSpeed; private set => tiltSpeed = value; }
 
@@ -26,6 +31,10 @@ public class PlayerModel : MonoBehaviour, IDamageable ///Calculos, datos, lo mas
     public event Action<float> OnTakeDamage;
     public event Action<bool> OnMoving;
 
+    private void Start()
+    {
+        currentHealth = maxHealth;
+    }
     public Vector3 CalculateMove(Vector3 direction)
     {
         return direction.normalized * moveSpeed;
@@ -41,8 +50,10 @@ public class PlayerModel : MonoBehaviour, IDamageable ///Calculos, datos, lo mas
 
     public void TakeDamage(float dmg)
     {
-        //TODO: Logica de realizar el daño
-        OnTakeDamage.Invoke(dmg);
+        currentHealth -= dmg;               // Reducís la vida actual
+        currentHealth = Mathf.Max(0, currentHealth); // Clamp para no bajar de 0
+
+        OnTakeDamage?.Invoke(currentHealth); // Invocás evento con vida actual
     }
     public void AddCoin()
     {
