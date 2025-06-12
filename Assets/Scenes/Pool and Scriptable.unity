@@ -5355,10 +5355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   respawnArea: {fileID: 362113739}
   respawnY: 14
-  dataMeteorites:
-  - {fileID: 11400000, guid: 4f909c3e6435b114caeb76e805118c31, type: 2}
-  - {fileID: 11400000, guid: cf1dd62a05984544b9392392c968e85f, type: 2}
-  - {fileID: 11400000, guid: c08e6760b00fef74b8a79093e7b0e51c, type: 2}
+  p_meteorites: {fileID: 11400000, guid: da9cc581a48a2654c91e5bc2fcf05b77, type: 2}
   spawnInterval: 5
 --- !u!65 &362113739
 BoxCollider:
@@ -5678,6 +5675,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &794109161
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 794109163}
+  - component: {fileID: 794109162}
+  m_Layer: 0
+  m_Name: PoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &794109162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794109161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5556e059279c3974a87f28d0a6f487c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &794109163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794109161}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.5749264, y: 1.6455646, z: -0.420251}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &886820979
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6313,7 +6354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5863250251557754686, guid: 7f60969fc8fa3ff4fadc9726d3651f4d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6798777031406679166, guid: 7f60969fc8fa3ff4fadc9726d3651f4d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6447,3 +6488,4 @@ SceneRoots:
   - {fileID: 599677330}
   - {fileID: 908148742646801894}
   - {fileID: 362113742}
+  - {fileID: 794109163}

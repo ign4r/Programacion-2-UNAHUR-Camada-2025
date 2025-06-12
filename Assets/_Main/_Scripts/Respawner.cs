@@ -1,17 +1,20 @@
 using System.Collections;
 using UnityEngine;
 
-
 public class Respawner : MonoBehaviour
 {
     [SerializeField] private BoxCollider respawnArea;     // Asignar en inspector
     [SerializeField] private float respawnY = 1f;          // Altura de respawn
-    [SerializeField] private MeteoriteDataObject[] dataMeteorites; // Array de prefabs
+    [SerializeField] private DataPrefabs p_meteorites;
     [SerializeField] private float spawnInterval = 2f;     // Intervalo entre spawns
 
+    private void Awake()
+    {
+        PoolManager.Instance.CreatePools(p_meteorites.Prefabs,10);
+    }
     private void Start()
     {
-        if (dataMeteorites == null || dataMeteorites.Length == 0)
+        if (p_meteorites == null || p_meteorites.Prefabs.Count == 0)
         {
             Debug.LogError("No hay objetos asignados para instanciar.");
             return;
@@ -24,10 +27,12 @@ public class Respawner : MonoBehaviour
     {
         while (true)
         {
-            MeteoriteDataObject data = dataMeteorites[Random.Range(0, dataMeteorites.Length)]; //Elegi un random de la lista
-
-            GameObject objPrefab = Instantiate(data.Prefab);
-            RespawnAtRandomX(objPrefab);//Respawnea un objeto en una posicion random en X
+            GameObject prefabRandom = p_meteorites.Prefabs[Random.Range(0, p_meteorites.Prefabs.Count)];
+            GameObject objSelected = PoolManager.Instance.GetObject(prefabRandom);
+            if (objSelected != null)
+            {
+                RespawnAtRandomX(objSelected);
+            }
             yield return new WaitForSeconds(spawnInterval);
         }
     }

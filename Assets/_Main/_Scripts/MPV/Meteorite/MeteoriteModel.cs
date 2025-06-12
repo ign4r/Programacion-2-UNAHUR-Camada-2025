@@ -1,30 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MeteoriteModel : MonoBehaviour,IDamageable
+/// Model:
+/// Tiene estado mutable(vida actual, cooldowns, etc.).
+///Aplica lógica.
+/// Usa el ScriptableObject como configuración base.
+
+public class MeteoriteModel : MonoBehaviour
 {
     [SerializeField]
-    private MeteoriteDataObject _meteoriteData;
+    private TypeMeteoriteData _meteoriteData;
 
-    public MeteoriteDataObject MeteoriteData { get => _meteoriteData; }
+    public TypeMeteoriteData MeteoriteData { get => _meteoriteData; }
+    public bool IsDestroyed { get; private set; }
 
-    public void TakeDamage(float dmg)
+    public float TimeAlive { get; private set; }
+
+    private void Start()
     {
-        //Logica de daño
-        // Invocar evento de OnDamage
+        IsDestroyed = false;
+        TimeAlive = 0f;
+    }
+    private void Update()
+    {
+        TimeAlive += Time.deltaTime;
+    }
+
+    public void MarkAsDestroyed()
+    {
+        IsDestroyed = true;
     }
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
+

@@ -1,5 +1,10 @@
 using System;
 using UnityEngine;
+/// <summary>
+/// Tiene estado mutable(vida actual, cooldowns, etc.).
+/// Aplica lógica.
+/// Usa el ScriptableObject como configuración base.
+/// </summary>
 public class PlayerModel : MonoBehaviour, IDamageable ///Calculos, datos, lo mas abstracto posible.
 {
     [SerializeField]
@@ -19,18 +24,8 @@ public class PlayerModel : MonoBehaviour, IDamageable ///Calculos, datos, lo mas
 
     public event Action<int> OnCoinsChanged;
     public event Action<float> OnTakeDamage;
+    public event Action<bool> OnMoving;
 
-    //public void SetSpeed(float speed)
-    //{
-    //    TiltSpeed = speed;
-    //}
-
-    //public void SetPosition(Vector3 position)
-    //{
-    //    position = position * 2f;
-
-    //    ////transform.position = transform.position * 2f; ///Rompemos con la responsabilidad del modelo
-    //}
     public Vector3 CalculateMove(Vector3 direction)
     {
         return direction.normalized * moveSpeed;

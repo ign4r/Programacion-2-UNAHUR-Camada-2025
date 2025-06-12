@@ -3,7 +3,7 @@ using UnityEngine;
 public class Implementation : MonoBehaviour
 {
     [SerializeField]
-    private MeteoriteDataObject _exampleData;
+    private TypeMeteoriteData _exampleData;
 
     [SerializeField]
     private int speedExample;
@@ -12,7 +12,7 @@ public class Implementation : MonoBehaviour
     private void Start()
     {
         //Obtenemos la data del scriptableObject
-        speedExample = _exampleData.DamageMeteorite;
+        speedExample = _exampleData.Damage;
 
 
     }

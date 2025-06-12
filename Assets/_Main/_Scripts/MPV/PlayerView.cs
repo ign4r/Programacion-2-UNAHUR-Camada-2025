@@ -3,46 +3,29 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
+/// <summary>
+/// Cambiar sprites, animaciones o materiales.
+/// Mostrar o actualizar UI (TextMeshPro, Sliders, etc.).
+/// Reproducir partículas, sonidos, efectos visuales.
+/// Encender o apagar objetos visuales (como SetActive, Play(), Stop()).
+/// Posiblemente exponer eventos de UI, como botones (OnClick), para que el presentador los maneje.
+/// </summary>
 public class PlayerView : MonoBehaviour ///Actualizamos UI, ejecutamos eventos visuales o sonoros
 {
-    private PlayerPresenter playerPresenter;
+    //private PlayerPresenter playerPresenter;  Evitemos que la vista conozca al playerPresenter, no es lo ideal.
     [SerializeField] private TextMeshProUGUI coinsText;
+    [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private AudioSource coinSound;
     [SerializeField] private ParticleSystem _particleSystem;
-    public Action<bool> OnMovingView { get; set; }
 
-    private void Awake()
+    public void UpdateHealthText(float health)
     {
-        playerPresenter = GetComponent<PlayerPresenter>();
-    }
-    private void OnEnable()
-    {
-    
-        //y el view se suscribe a ese evento para cambiar la UI.
-        //OnCoinsCollected: tiene informacion de tipo int es decir la cantidad actual de monedas
-        playerPresenter.OnPlayerMoving += HandlePlayerMoving;
-        playerPresenter.OnCoinsCollected += HandleCoinsCollected;
-        playerPresenter.OnDamage += HandleDamageView;
+        healthText.text = health.ToString(); // Actualiza los puntos de vida 
+
     }
 
-    private void OnDisable()
-    {
-        if (playerPresenter != null)
-        {
-            playerPresenter.OnCoinsCollected -= HandleCoinsCollected;
-            playerPresenter.OnPlayerMoving -= HandlePlayerMoving;
-        }
-          
-    }
-    public void HandleDamageView(float dmg)
-    {
-        //Ejecuto animacion
-        //Ejecuto particular
-    }
     public void HandlePlayerMoving(bool value)
     {
-        //
-        
         Debug.Log("aca se deberian ejecutar las particulas");
         if (value)
         {

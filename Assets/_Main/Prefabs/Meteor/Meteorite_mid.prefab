@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 8102387853794418950}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5204881, y: 0, z: 0, w: 0.8538689}
-  m_LocalPosition: {x: -5.1841183, y: 2.0682268, z: 4.6214604}
+  m_LocalPosition: {x: 10.30472, y: 14, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -195,3 +195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 355d461f1548ead47923298d87e5b4af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionFX: {fileID: 0}
+  explosionSFX: {fileID: 0}
+  meshRenderer: {fileID: 0}
