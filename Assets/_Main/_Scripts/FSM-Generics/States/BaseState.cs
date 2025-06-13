@@ -12,7 +12,15 @@ public abstract class BaseState<T> : IState<T>
 {
     private Dictionary<T, IState<T>> _transitions = new();
 
-    public abstract T StateEnum { get; }
+    //Es una estructura de datos que almacena: clave-valor.
+    //Es como un mapa o un directorio donde a cada clave única le corresponde un valor asociado,
+    //La "clave" funciona como una identificacion para cada "valor".
+
+    /// <summary>
+    /// Entrada (input) que representa o activa este estado dentro de la maquina de estados.
+    /// Se usa para identificar la transicion hacia este estado.
+    /// </summary>
+    public abstract T KeyState { get; protected set; } 
 
     /// <summary>
     /// Metodo que se llama cuando el estado se activa.

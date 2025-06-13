@@ -1,12 +1,11 @@
 ﻿/// <summary>
-/// Una implementación genérica de una máquina de estados finitos (FSM).
-/// Permite gestionar la transición entre diferentes estados basados en entradas y actualiza el estado actual.
+/// Implementacion generica de un estado para una FSM.
+/// Gestiona el ciclo de vida del estado y las transiciones basadas en entradas.
 /// </summary>
-/// <typeparam name="T">Tipo de entrada que se usa para las transiciones entre estados.</typeparam>
-
+/// <typeparam name="T">Tipo de entrada usada para las transiciones de estado.</typeparam>
 public interface IState<T>
 {
-    T StateEnum { get; }
+    T KeyState { get; }
     void Awake();
     void Execute();
     void Sleep();

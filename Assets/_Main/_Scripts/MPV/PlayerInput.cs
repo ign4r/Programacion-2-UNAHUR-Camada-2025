@@ -3,34 +3,29 @@ using System;
 
 public class PlayerInput : MonoBehaviour
 {
-    private Vector3 inputDirection;
-    private bool wasInputActive;
+    [SerializeField]
+    private FSMController _fsmController;
 
-    public Vector3 Axis => inputDirection;
-
-    public event Action OnInputStarted;
-    public event Action OnInputStopped;
 
     void Update()
     {
-        float inputX = Input.GetAxis("Horizontal");
-        float inputY = Input.GetAxis("Vertical");
+       // El hecho de que llames a un metodo publico para cambiar de estado, ya es un “evento” en la logica.
 
-        inputDirection = new Vector3(inputX, inputY, 0f);
+        if (Input.GetKey(KeyCode.D))
+            _fsmController.OnDanceEvent();
 
-        bool isInputActive = (inputX != 0f || inputY != 0f);
+        else if (Input.GetKeyDown(KeyCode.A))
+            _fsmController.OnAttackEvent();
 
-        if (isInputActive && !wasInputActive)
-        {
-            OnInputStarted?.Invoke();
-        }
-        else if (!isInputActive && wasInputActive)
-        {
-            OnInputStopped?.Invoke();
-        }
+        else if (Input.GetKey(KeyCode.M))
+            _fsmController.OnMoveEvent();
 
-        wasInputActive = isInputActive;
+        else
+            _fsmController.OnIdleEvent();
     }
 
+
 }
+
+
 

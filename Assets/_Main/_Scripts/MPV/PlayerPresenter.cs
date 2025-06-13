@@ -51,9 +51,9 @@ public class PlayerPresenter : MonoBehaviour
  
     void FixedUpdate()
     {
-        Vector3 input = _pInput.Axis;
-        ApplyMovement(input);
-        UpdateTilt(input.x);
+        ////Vector3 input = _pInput.Axis;
+        //ApplyMovement(input);
+        //UpdateTilt(input.x);
     }
 
     public void ApplyMovement(Vector3 direction)

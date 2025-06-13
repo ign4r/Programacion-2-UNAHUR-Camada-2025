@@ -11,6 +11,10 @@ public class FSMController : MonoBehaviour
 {
     private FSM<ExampleStatesEnum> _fsm;
 
+    [field: SerializeField]
+    public ExampleStatesEnum CurrentState { get; private set; }
+
+
     private void Start()
     {
         InitializeFSM();
@@ -19,15 +23,7 @@ public class FSMController : MonoBehaviour
     private void Update()
     {
         _fsm.OnUpdate();
-
-        var currentStateEnum = _fsm.Current.StateEnum; // obtengo el enum del estado actual
-
-        ExampleStatesEnum nextStateEnum = ChoseStateForCondition();
-
-        if (!nextStateEnum.Equals(currentStateEnum)) // si el estado a transicionar no es igual al actual, realiza la transicion
-        {
-            _fsm.Transitions(nextStateEnum); //transicionamos
-        }
+        CurrentState = _fsm.Current.KeyState;
     }
 
     private void InitializeFSM()
@@ -35,50 +31,48 @@ public class FSMController : MonoBehaviour
         _fsm = new FSM<ExampleStatesEnum>();
 
         // Crear estados
-        var idleState = new ActionStateExample0<ExampleStatesEnum>(_fsm);
-        var moveState = new ActionStateExample1<ExampleStatesEnum>(_fsm);
-        var danceState = new ActionStateExample2<ExampleStatesEnum>(_fsm);
-        var attackState = new ActionStateExample3<ExampleStatesEnum>(_fsm);
+        var idleState = new ActionStateExample0<ExampleStatesEnum>(_fsm,ExampleStatesEnum.Idle);
+        var moveState = new ActionStateExample1<ExampleStatesEnum>(_fsm,ExampleStatesEnum.Move);
+        var danceState = new ActionStateExample2<ExampleStatesEnum>(_fsm, ExampleStatesEnum.Dance);
+        var attackState = new ActionStateExample3<ExampleStatesEnum>(_fsm, ExampleStatesEnum.Attack);
 
-        // Configurar transiciones
+        // Configuraramos las transiciones
         idleState.AddTransition(ExampleStatesEnum.Move, moveState);
         idleState.AddTransition(ExampleStatesEnum.Dance, danceState);
         idleState.AddTransition(ExampleStatesEnum.Attack, attackState);
 
         moveState.AddTransition(ExampleStatesEnum.Idle, idleState);
+        danceState.AddTransition(ExampleStatesEnum.Idle, idleState);
+        attackState.AddTransition(ExampleStatesEnum.Idle, idleState);
 
 
         // Estado inicial
         _fsm.SetInit(idleState);
     }
 
-
-    private ExampleStatesEnum ChoseStateForCondition()
+    public void OnDanceEvent()
     {
-        if (IsDance())
-            return ExampleStatesEnum.Dance;
-
-        if (ShouldAttack())
-            return ExampleStatesEnum.Attack;
-
-        if (ShouldMove())
-            return ExampleStatesEnum.Move;
-
-        return ExampleStatesEnum.Idle; 
+        if (_fsm.Current.KeyState != ExampleStatesEnum.Dance)
+            _fsm.Transitions(ExampleStatesEnum.Dance);
     }
 
-    private bool IsDance()
+    public void OnAttackEvent()
     {
-        return Input.GetKey(KeyCode.D); // Condicion, se puede adaptar para una IA
+        if (_fsm.Current.KeyState != ExampleStatesEnum.Attack)
+            _fsm.Transitions(ExampleStatesEnum.Attack);
     }
 
-    private bool ShouldAttack()
+    public void OnMoveEvent()
     {
-        return Input.GetKeyDown(KeyCode.A); // Condicion, se puede adaptar para una IA
+        if (_fsm.Current.KeyState != ExampleStatesEnum.Move)
+            _fsm.Transitions(ExampleStatesEnum.Move);
     }
 
-    private bool ShouldMove()
+    public void OnIdleEvent()
     {
-        return Input.GetKey(KeyCode.M); // Condicion, se puede adaptar para una IA
+        if (_fsm.Current.KeyState != ExampleStatesEnum.Idle)
+            _fsm.Transitions(ExampleStatesEnum.Idle);
     }
+
+
 }

@@ -3,10 +3,9 @@
 /// Permite gestionar la transición entre diferentes estados basados en entradas y actualiza el estado actual.
 /// </summary>
 /// <typeparam name="T">Tipo de entrada que se usa para las transiciones entre estados.</typeparam>
-
 public class FSM<T>
 {
-    private IState<T> _current; // Estado actual de la máquina de estados.
+    private IState<T> _current; // Estado actual de la máquina de estados - Creamos una interfaz generica..
 
     public IState<T> Current { get => _current; set => _current = value; }
 

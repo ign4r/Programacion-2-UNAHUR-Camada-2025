@@ -2,17 +2,18 @@ using UnityEngine;
 
 public class ActionStateExample3<T> : BaseState<ExampleStatesEnum>
 {
-    private T _stateTransition;
-    private MeteoriteModel _model;
-    private FSM<T> _fsm;
-    public ActionStateExample3(FSM<T> fsm, T stateTransition = default, MeteoriteModel model = null)
+    public T StateTransition { get; set; }
+    public MeteoriteModel Model { get; set; }
+    public FSM<T> Fsm { get; set; }
+    public override ExampleStatesEnum KeyState { get; protected set; }
+
+    public ActionStateExample3(FSM<T> fsm, ExampleStatesEnum stateTransition, MeteoriteModel model = null)
     {
-        _stateTransition = stateTransition;
-        _fsm = fsm;
-        _model = model;
+        KeyState = stateTransition;
+        Fsm = fsm;
+        Model = model;
     }
 
-    public override ExampleStatesEnum StateEnum => ExampleStatesEnum.Attack;
     public override void Awake()
     {
         Debug.Log("Attack State Awake");
